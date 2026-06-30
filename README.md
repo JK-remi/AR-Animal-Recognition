@@ -91,6 +91,81 @@ AR 캐릭터와 개체 정보를 표시하도록 구현했습니다.
 
 ## 주요 기능
 
+### 1. 2단계 AI 인식 파이프라인
+#### 배경
+
+기존 Object Detection은 객체의 위치와 종류를 탐지하는 데에는 효과적이지만,
+동일한 종에 속한 개체를 구분하는 데에는 한계가 있습니다.
+
+예를 들어 판다를 탐지할 수는 있지만, 푸바오와 아이바오처럼 같은 종 내의 개체를 식별하기는 어렵습니다.
+
+이를 해결하기 위해 Object Detection과 Classification을 결합한
+2단계 AI 인식 파이프라인을 설계했습니다.
+
+#### 설계
+
+촬영한 이미지를 먼저 Object Detection 모델에 입력하여 동물의 위치를 탐지합니다.
+
+이후 탐지된 Bounding Box 영역만 추출하여 Classification 모델의 입력으로 사용함으로써,
+배경의 영향을 최소화하고 동일한 종 내 개체를 식별할 수 있도록 구성했습니다.
+
+#### 구현
+
+Object Detection에서 반환한 Bounding Box 좌표를 이용하여
+탐지된 영역만 추출한 뒤 Classification 모델에 전달하도록 구현했습니다.
+
+```python
+cropped_img = image.crop((left, top, right, bottom))
+```
+
+#### 처리 흐름
+
+```mermaid
+flowchart LR
+
+A[Capture Image]
+
+--> B[Object Detection]
+
+--> C[Bounding Box]
+
+--> D[Crop Image]
+
+--> E[Classification]
+
+--> F[Prediction]
+
+--> G[Unity]
+```
+
+#### 실행 결과
+##### 1단계. Object Detection
+
+촬영한 이미지에서 동물의 위치를 탐지하고 Bounding Box를 생성합니다.
+
+<p align="center">
+  <img src="images/object_detection.png" width="650">
+</p>
+
+##### 2단계. Classification
+
+탐지된 영역만 Classification 모델에 전달하여
+동일한 종 내의 개체를 식별합니다.
+
+| 단일 개체 인식 | 다중 개체 인식 |
+|:---:|:---:|
+| <img src="images/classification_tiger.png" width="250"> | <img src="images/classification_zebra.png" width="250"> |
+
+#### 결과
+
+Object Detection과 Classification을 결합한 2단계 AI 인식 파이프라인을 적용하여
+동물의 종류를 탐지한 뒤 동일한 종 내 개체를 식별할 수 있도록 구현했습니다.
+
+또한 탐지된 영역만 Classification에 활용하여
+배경의 영향을 최소화하고 개체 인식이 가능하도록 구성했습니다.
+
+
+
 ---
 
 ## 기술적 문제 해결
