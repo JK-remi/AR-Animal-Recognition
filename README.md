@@ -154,7 +154,7 @@ A[Capture Image]
 
 | 단일 개체 인식 | 다중 개체 인식 |
 |:---:|:---:|
-| <img src="images/classification_tiger.png" width="250"> | <img src="Images/classification_zebra.png" width="250"> |
+| <img src="images/classification_tiger.png" width="250"> | <img src="images/classification_zebra.png" width="250"> |
 
 #### 결과
 
