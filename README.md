@@ -111,12 +111,12 @@ AR 캐릭터와 개체 정보를 표시하도록 구현했습니다.
 
 촬영한 이미지를 먼저 Object Detection 모델에 입력하여 동물의 위치를 탐지합니다.
 
-이후 탐지된 Bounding Box 영역만 추출하여 Classification 모델의 입력으로 사용함으로써,
+이후 탐지된 영역(Bounding Box)만 추출하여 Classification 모델의 입력으로 사용함으로써,
 배경의 영향을 최소화하고 동일한 종 내 개체를 식별할 수 있도록 구성했습니다.
 
 #### 구현
 
-Object Detection에서 반환한 Bounding Box 좌표를 이용하여
+Object Detection에서 반환한 영역(Bounding Box) 좌표를 이용하여
 탐지된 영역만 추출한 뒤 Classification 모델에 전달하도록 구현했습니다.
 
 ```python
@@ -146,7 +146,7 @@ A[Capture Image]
 #### 실행 결과
 ##### 1단계. Object Detection
 
-촬영한 이미지에서 동물의 위치를 탐지하고 Bounding Box를 생성합니다.
+촬영한 이미지에서 동물의 위치를 탐지하고 추출할 영역(Bounding Box)을 생성합니다.
 
 <p align="center">
   <img src="images/object_detection.png" width="650">
@@ -261,6 +261,37 @@ Classification 모델을 Unity 애플리케이션과 연동하고
 
 제한적인 학습 이미지 환경에서도
 동일한 종 내 개체를 보다 안정적으로 식별할 수 있었습니다.
+
+### 2. 2단계 AI 인식 파이프라인 설계
+#### 문제
+
+초기에는 Object Detection만으로 동물을 인식하는 방식을 고려했습니다.
+
+하지만 Object Detection은 객체의 위치와 종류를 탐지하는 데에는 적합했지만,
+푸바오와 아이바오처럼 동일한 종에 속한 개체를 구분하기에는 한계가 있었습니다.
+
+또한 탐지된 이미지를 그대로 Classification에 입력하면
+배경이 함께 포함되어 개체 인식 정확도가 낮아질 가능성이 있었습니다.
+
+#### 해결
+
+Object Detection과 Classification을 결합한
+2단계 AI 인식 파이프라인을 설계했습니다.
+
+Object Detection으로 탐지한 영역(Bounding Box)만 추출하여
+Classification 모델의 입력으로 사용함으로써
+
+- 배경의 영향을 최소화하고  
+- 동일한 종 내 개체를 보다 효과적으로 식별할 수 있도록 구성했습니다.  
+
+#### 결과
+
+Object Detection과 Classification의 역할을 분리하여
+동물 탐지와 개체 인식을 각각 수행하도록 구현했습니다.
+
+추출 영역(Bounding Box)만 활용하여 Classification을 수행함으로써
+배경의 영향을 줄이고
+개체 인식 정확도를 향상시킬 수 있었습니다.
 
 ---
 
