@@ -210,7 +210,7 @@ A[Plane Detection]
 #### 실행 결과
 | AR 캐릭터 생성 | 동물 정보 제공 |
 |:---:|:---:|
-| <img src="images/ar_character.png" width="180"> | <img src="images/ar_info.png" width="180"> |
+| <img src="images/ar_character.png" width="180"> | <img src="images/ar_information.png" width="180"> |
 
 AI 인식 결과에 따라
 실제 공간에 AR 캐릭터를 생성하고,
