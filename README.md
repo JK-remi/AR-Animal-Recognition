@@ -10,11 +10,16 @@
 
 ## 프로젝트 소개
 
-기존의 AR 애플리케이션은 객체를 인식하는 수준에 머무르는 경우가 많으며, 같은 종에 속한 개체를 구분하거나 관련 정보를 제공하는 데에는 한계가 있습니다.
+Azure Custom Vision의 Object Detection과 Classification을 결합한
+2단계 AI 인식 파이프라인을 적용하여
+동물을 탐지하고 개체를 식별하는 모바일 AR 애플리케이션입니다.
 
-본 프로젝트는 Azure Custom Vision의 Object Detection과 Classification을 결합한 2단계 AI 인식 파이프라인을 적용하여 동물을 탐지하고, 탐지된 객체를 다시 분류하여 개체를 식별하는 모바일 AR 애플리케이션입니다.
+기존 AR 애플리케이션이 객체를 인식하는 수준에 머무르는 것과 달리,
+탐지된 객체를 다시 분류하여 동일한 종에 속한 개체를 식별하고,
+Unity 환경에서 해당 위치에 AR 캐릭터와 개체 정보를 제공합니다.
 
-탐지된 결과를 기반으로 Unity 환경에서 해당 위치에 AR 캐릭터와 개체 정보를 제공하며, 최종적으로는 수집한 캐릭터를 활용한 미니게임까지 확장하는 것을 목표로 설계했습니다. 현재는 동물 탐지, 개체 인식, AR 캐릭터 생성 기능까지 구현했습니다.
+최종적으로는 수집한 AR 캐릭터를 활용한 미니게임까지 확장하는 것을 목표로 설계했으며,
+현재는 동물 탐지, 개체 인식, AR 캐릭터 생성 기능까지 구현했습니다.
 
 ---
 
@@ -68,7 +73,7 @@ H --> J[Animal Information]
 Unity에서 촬영한 이미지를 Python(Flask) 서버로 전송한 뒤,
 Azure Custom Vision의 Object Detection을 통해 동물을 탐지합니다.
 
-탐지된 Bounding Box 영역만 Crop하여 Classification 모델에 입력함으로써
+탐지된 영역(Bounding Box)만 추출(crop)하여 Classification 모델에 입력함으로써
 동물의 개체를 식별하고,
 
 최종 결과를 Unity로 전달하여
